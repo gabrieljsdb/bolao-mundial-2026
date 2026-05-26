@@ -1,0 +1,151 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --background: #0a1f0a;
+  --foreground: #ffffff;
+  --primary: #d4b651;
+  --primary-foreground: #000000;
+  --card: #123012;
+  --card-foreground: #ffffff;
+  --popover: #123012;
+  --popover-foreground: #ffffff;
+  --secondary: #1a421a;
+  --secondary-foreground: #bbf7d0;
+  --muted: #1a421a;
+  --muted-foreground: #86efac;
+  --accent: #15803d;
+  --accent-foreground: #ffffff;
+  --destructive: #991b1b;
+  --destructive-foreground: #ffffff;
+  --border: #166534;
+  --input: #0a1f0a;
+  --ring: #4ade80;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background-image: radial-gradient(circle at center, #0a240a 0%, #040d04 100%);
+    background-attachment: fixed;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  h1, h2, h3, h4, .font-bebas {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.05em;
+  }
+  
+  .font-oswald {
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .font-rajdhani {
+    font-family: 'Rajdhani', sans-serif;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container {
+      max-width: 1280px;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  .tactical-bg {
+    background-color: #040d04;
+    background-image: 
+      linear-gradient(rgba(20, 83, 45, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(20, 83, 45, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    position: relative;
+  }
+
+  .tactical-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(4, 13, 4, 0.8) 100%);
+    pointer-events: none;
+  }
+
+    .group-card {
+    @apply bg-[#123012]/90 border border-green-700/50 rounded-lg overflow-hidden backdrop-blur-sm;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  }
+  .group-header {
+    @apply bg-green-800/40 px-4 py-2 flex items-center justify-between border-b border-green-700/40;
+  }
+
+  .btn-primary {
+    @apply bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition-all uppercase tracking-wider;
+  }
+
+  .score-input {
+    @apply w-12 h-10 text-center bg-black/60 border border-green-600 text-green-300 rounded-md font-mono text-lg focus:border-green-300 focus:ring-1 focus:ring-green-300 outline-none transition-all;
+  }
+}
+
+@layer utilities {
+  /* Remove a barra de rolagem mas mantém funcionalidade de scroll */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
