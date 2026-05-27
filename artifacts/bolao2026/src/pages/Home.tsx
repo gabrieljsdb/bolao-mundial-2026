@@ -6,6 +6,7 @@ import { SECOND_ROUND_MATCHUPS, R16_MATCHUPS, QF_MATCHUPS, SF_MATCHUPS } from "@
 import { Loader2, RotateCcw, LogOut, Sun, CheckCircle2, Trophy, Users, LayoutGrid, ClipboardList, ChevronDown, ChevronUp, Medal, TrendingUp, AlertCircle, ChevronRight, Shield, Save, ArrowUp, ArrowDown, Minus, BarChart2, Building2, Clock, Eye, Lock, User, KeyRound, X } from "lucide-react";
 import { ScoreInput } from "@/components/ScoreInput";
 import { TeamFlag } from "@/components/TeamFlag";
+import { MobileQuickPick } from "@/components/MobileQuickPick";
 import { useLocation } from "wouter";
 
 function KnockoutCard({ 
@@ -1664,12 +1665,17 @@ export default function Home() {
             {activeTab === "groups" && (
               <div className="space-y-12">
 
-                <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 ${confirmedGroups && !isLocked ? "pointer-events-none opacity-80" : ""}`}>
+                {/* Mobile: palpite rápido jogo a jogo */}
+                <div className={`block md:hidden ${confirmedGroups && !isLocked ? "pointer-events-none opacity-80" : ""}`}>
+                  <MobileQuickPick />
+                </div>
+
+                {/* Desktop: grid de grupos completo */}
+                <div className={`hidden md:grid grid-cols-1 lg:grid-cols-2 gap-8 ${confirmedGroups && !isLocked ? "pointer-events-none opacity-80" : ""}`}>
                   {GROUPS.map(g => <GroupCard key={g.id} groupId={g.id} />)}
                 </div>
-                
-                <BestThirdsTable />
 
+                <BestThirdsTable />
 
               </div>
             )}
