@@ -4,6 +4,7 @@ import { users, officialResults, activityLogs, systemConfig, userPredictions } f
 import { eq } from "drizzle-orm";
 import { requireAdmin } from "./auth";
 import nodemailer from "nodemailer";
+import { computeScore } from "../lib/scoring";
 
 const router = Router();
 
@@ -54,28 +55,10 @@ router.get("/admin/users", requireAdmin, async (req: any, res) => {
     const allUsers = await db.query.users.findMany();
     const allPredictions = await db.query.userPredictions.findMany();
     const allResults = await db.query.officialResults.findMany();
+    const cfg = await db.query.systemConfig.findFirst();
+    const knockoutResults = (cfg?.officialKnockoutResults as any) ?? null;
     const predMap: Record<number, any> = {};
     for (const p of allPredictions) predMap[p.userId] = p;
-    const resultsMap: Record<string, { home: number; away: number }> = {};
-    for (const r of allResults) resultsMap[r.matchId] = { home: r.homeScore, away: r.awayScore };
-
-    function computeScore(prediction: any): number {
-      if (!prediction) return 0;
-      let score = 0;
-      const groupPredictions: any = prediction.groupPredictions || {};
-      for (const group of Object.values(groupPredictions)) {
-        for (const [matchId, pred] of Object.entries(group as any)) {
-          const official = resultsMap[matchId];
-          if (!official || (pred as any).home === null || (pred as any).away === null) continue;
-          const predH = Number((pred as any).home), predA = Number((pred as any).away);
-          if (predH === official.home && predA === official.away) { score += 3; continue; }
-          const predWinner = predH > predA ? "home" : predH < predA ? "away" : "draw";
-          const realWinner = official.home > official.away ? "home" : official.home < official.away ? "away" : "draw";
-          if (predWinner === realWinner) score += 1;
-        }
-      }
-      return score;
-    }
 
     const list = allUsers.map(u => ({
       id: u.id,
@@ -85,7 +68,7 @@ router.get("/admin/users", requireAdmin, async (req: any, res) => {
       role: u.role,
       hasPaid: u.hasPaid,
       createdAt: u.createdAt,
-      score: computeScore(predMap[u.id]),
+      score: computeScore(predMap[u.id], allResults, knockoutResults),
     }));
     res.json(list);
   } catch (err) {

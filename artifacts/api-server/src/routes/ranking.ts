@@ -1,58 +1,19 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
 import { users, userPredictions, officialResults, systemConfig } from "@workspace/db";
+import { computeScore, computeExactCount } from "../lib/scoring";
 
 const router = Router();
 
-function computeScore(prediction: any, results: any[]): number {
-  if (!prediction) return 0;
-  let score = 0;
-  const resultsMap: Record<string, { home: number; away: number }> = {};
-  for (const r of results) {
-    resultsMap[r.matchId] = { home: r.homeScore, away: r.awayScore };
-  }
-
-  // 1. Fase de Grupos
-  const groupPredictions: Record<string, any> = prediction.groupPredictions || {};
-  for (const group of Object.values(groupPredictions)) {
-    const matchPredictions = (group as any).matchPredictions;
-    if (!Array.isArray(matchPredictions)) continue;
-
-    for (const pred of matchPredictions) {
-      const official = resultsMap[pred.matchId];
-      if (!official || pred.homeScore === null || pred.awayScore === null) continue;
-
-      const ph = Number(pred.homeScore), pa = Number(pred.awayScore);
-      const oh = official.home, oa = official.away;
-
-      // Acerto exato (10 pontos no total)
-      if (ph === oh && pa === oa) {
-        score += 10;
-      } else {
-        // Acerto de vencedor/empate (6 pontos)
-        const predRes = ph > pa ? "1" : ph < pa ? "2" : "X";
-        const offRes = oh > oa ? "1" : oh < oa ? "2" : "X";
-        if (predRes === offRes) score += 6;
-
-        // Acerto de gols individual (2 pontos cada)
-        if (ph === oh) score += 2;
-        if (pa === oa) score += 2;
-      }
-    }
-  }
-
-  // 2. Classificados da Fase de Grupos (2 pontos por time)
-  // Nota: A lógica de pontos para classificados pode ser complexa pois depende dos resultados oficiais
-  // que o admin registra. Por enquanto, focamos nos placares que é o mais comum.
-
-  return score;
-}
-
 router.get("/ranking", async (req, res) => {
   try {
-    const allUsers = await db.query.users.findMany();
-    const allPredictions = await db.query.userPredictions.findMany();
-    const allResults = await db.query.officialResults.findMany();
+    const [allUsers, allPredictions, allResults, cfg] = await Promise.all([
+      db.query.users.findMany(),
+      db.query.userPredictions.findMany(),
+      db.query.officialResults.findMany(),
+      db.query.systemConfig.findFirst(),
+    ]);
+    const knockoutResults = (cfg?.officialKnockoutResults as any) ?? null;
     const predMap: Record<number, any> = {};
     for (const p of allPredictions) predMap[p.userId] = p;
     const ranking = allUsers
@@ -62,9 +23,14 @@ router.get("/ranking", async (req, res) => {
         department: u.department,
         hasPaid: u.hasPaid,
         hasPredictions: !!predMap[u.id],
-        score: computeScore(predMap[u.id], allResults),
+        score: computeScore(predMap[u.id], allResults, knockoutResults),
+        exactCount: computeExactCount(predMap[u.id], allResults),
       }))
-      .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
+      .sort((a, b) =>
+        b.score - a.score ||
+        b.exactCount - a.exactCount ||
+        a.name.localeCompare(b.name)
+      );
     res.json(ranking);
   } catch (err: any) {
     req.log?.error?.(err, "ranking error");
@@ -74,10 +40,14 @@ router.get("/ranking", async (req, res) => {
 
 router.get("/ranking/by-sector", async (req, res) => {
   try {
-    const allUsers = await db.query.users.findMany();
-    const allPredictions = await db.query.userPredictions.findMany();
-    const allResults = await db.query.officialResults.findMany();
-    
+    const [allUsers, allPredictions, allResults, cfg] = await Promise.all([
+      db.query.users.findMany(),
+      db.query.userPredictions.findMany(),
+      db.query.officialResults.findMany(),
+      db.query.systemConfig.findFirst(),
+    ]);
+    const knockoutResults = (cfg?.officialKnockoutResults as any) ?? null;
+
     const predMap: Record<number, any> = {};
     for (const p of allPredictions) predMap[p.userId] = p;
 
@@ -85,7 +55,7 @@ router.get("/ranking/by-sector", async (req, res) => {
     
     for (const u of allUsers) {
       const dept = u.department || "Outros";
-      const score = computeScore(predMap[u.id], allResults);
+      const score = computeScore(predMap[u.id], allResults, knockoutResults);
       
       if (!sectorMap[dept]) {
         sectorMap[dept] = { totalScore: 0, count: 0, topScore: 0, members: [] };
@@ -95,10 +65,12 @@ router.get("/ranking/by-sector", async (req, res) => {
       s.totalScore += score;
       s.count += 1;
       if (score > s.topScore) s.topScore = score;
+      const exactCount = computeExactCount(predMap[u.id], allResults);
       s.members.push({
         id: u.id,
         name: u.name,
-        score: score
+        score,
+        exactCount,
       });
     }
 
@@ -108,7 +80,11 @@ router.get("/ranking/by-sector", async (req, res) => {
       totalScore: stats.totalScore,
       count: stats.count,
       topScore: stats.topScore,
-      members: stats.members.sort((a, b) => b.score - a.score)
+      members: stats.members.sort((a, b) =>
+        b.score - a.score ||
+        b.exactCount - a.exactCount ||
+        a.name.localeCompare(b.name)
+      )
     })).sort((a, b) => b.avgScore - a.avgScore);
 
     res.json(result);
