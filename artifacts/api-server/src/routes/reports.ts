@@ -414,14 +414,70 @@ export function buildAllPredictionsPdf(
         });
       }
 
-      // finalistas + campeão resumo no rodapé
-      if (y < doc.page.height - 60) {
-        doc.rect(40, y + 6, W - 80, 1).fill("#1e6b23");
-        y += 12;
+      // ── ELIMINATÓRIAS ────────────────────────────────────────────────────────
+      const koSections = [
+        { label: "SEGUNDA RODADA",   data: preds?.secondRoundPredictions },
+        { label: "OITAVAS DE FINAL", data: preds?.r16Predictions },
+        { label: "QUARTAS DE FINAL", data: preds?.qfPredictions },
+        { label: "SEMIFINAIS",       data: preds?.sfPredictions },
+      ];
+
+      const hasKo = koSections.some(s => s.data && typeof s.data === "object" && Object.keys(s.data).length > 0);
+      if (hasKo) {
+        y += 6;
+        doc.rect(40, y, W - 80, 1).fill("#1e6b23");
+        y += 8;
+        doc.fillColor(GOLD).font("Helvetica-Bold").fontSize(10).text("ELIMINATÓRIAS", 40, y);
+        y += 13;
+
+        koSections.forEach(({ label, data }) => {
+          if (!data || typeof data !== "object" || !Object.keys(data).length) return;
+          if (y > 720) { doc.addPage(); doc.rect(0, 0, W, doc.page.height).fill("#0a1f0d"); y = 40; }
+
+          doc.rect(40, y, W - 80, 14).fill(GREEN);
+          doc.fillColor("white").font("Helvetica-Bold").fontSize(7.5)
+            .text(label, 44, y + 3)
+            .text("TIME ESCOLHIDO", 340, y + 3);
+          y += 15;
+
+          let rb = false;
+          Object.entries(data).forEach(([matchKey, winner]: [string, any]) => {
+            if (y > 745) { doc.addPage(); doc.rect(0, 0, W, doc.page.height).fill("#0a1f0d"); y = 40; }
+            if (rb) doc.rect(40, y, W - 80, 12).fill("#0f2e14");
+            rb = !rb;
+            doc.fillColor("#c8e6c8").font("Helvetica").fontSize(7.5)
+              .text(matchKey, 44, y + 2, { width: 290 })
+              .font("Helvetica-Bold").fillColor(GOLD)
+              .text(teamName(winner), 340, y + 2);
+            y += 13;
+          });
+          y += 4;
+        });
+
+        // Finalistas
         if (f1 || f2) {
-          doc.fillColor(GOLD).font("Helvetica-Bold").fontSize(9)
-            .text(`Final: ${teamName(f1)} × ${teamName(f2)}   |   Campeão: ${champion}`, 40, y, { width: W - 80, align: "center" });
+          if (y > 720) { doc.addPage(); doc.rect(0, 0, W, doc.page.height).fill("#0a1f0d"); y = 40; }
+          doc.rect(40, y, W - 80, 14).fill(GREEN);
+          doc.fillColor("white").font("Helvetica-Bold").fontSize(7.5)
+            .text("FINALISTAS", 44, y + 3);
+          y += 15;
+          doc.rect(40, y, W - 80, 13).fill("#0f2e14");
+          doc.fillColor("#c8e6c8").font("Helvetica").fontSize(7.5)
+            .text("Final", 44, y + 2)
+            .font("Helvetica-Bold").fillColor(GOLD)
+            .text(`${teamName(f1)}  ×  ${teamName(f2)}`, 340, y + 2);
+          y += 17;
         }
+      }
+
+      // campeão resumo no rodapé
+      if (y < doc.page.height - 40) {
+        doc.rect(40, y + 4, W - 80, 1).fill("#1e6b23");
+        y += 10;
+        doc.rect(40, y, W - 80, 22).fill(GOLD);
+        doc.fillColor("white").font("Helvetica-Bold").fontSize(10)
+          .text(`🏆  CAMPEÃO: ${champion}`, 40, y + 6, { width: W - 80, align: "center" });
+        y += 26;
       }
     });
 

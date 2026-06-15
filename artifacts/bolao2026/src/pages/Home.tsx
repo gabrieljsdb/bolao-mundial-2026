@@ -9,21 +9,21 @@ import { TeamFlag } from "@/components/TeamFlag";
 import { MobileQuickPick } from "@/components/MobileQuickPick";
 import { useLocation } from "wouter";
 
-function KnockoutCard({ 
-  label, 
-  points, 
-  teamAId, 
-  teamBId, 
-  winnerId, 
-  onSelect, 
+function KnockoutCard({
+  label,
+  points,
+  teamAId,
+  teamBId,
+  winnerId,
+  onSelect,
   disabled,
   idPrefix
-}: { 
-  label: string; 
-  points: string; 
-  teamAId: string | null; 
-  teamBId: string | null; 
-  winnerId: string | null; 
+}: {
+  label: string;
+  points: string;
+  teamAId: string | null;
+  teamBId: string | null;
+  winnerId: string | null;
   onSelect: (teamId: string) => void;
   disabled?: boolean;
   idPrefix?: string;
@@ -41,11 +41,10 @@ function KnockoutCard({
         <button
           onClick={() => teamAId && onSelect(teamAId)}
           disabled={disabled || !teamAId}
-          className={`w-full flex items-center justify-between p-2.5 rounded transition-all ${
-            winnerId === teamAId && teamAId
+          className={`w-full flex items-center justify-between p-2.5 rounded transition-all ${winnerId === teamAId && teamAId
               ? "bg-green-700/50 border border-green-400/60 text-white shadow-[0_0_10px_rgba(74,222,128,0.2)]"
               : "bg-black/30 border border-green-900/20 text-green-400/70 hover:border-green-600/50 hover:text-green-200"
-          }`}
+            }`}
         >
           <div className="flex items-center gap-3">
             <span className="text-[10px] font-oswald text-green-400 font-bold uppercase w-4">{teamA?.shortName || "??"}</span>
@@ -58,11 +57,10 @@ function KnockoutCard({
         <button
           onClick={() => teamBId && onSelect(teamBId)}
           disabled={disabled || !teamBId}
-          className={`w-full flex items-center justify-between p-2.5 rounded transition-all ${
-            winnerId === teamBId && teamBId
+          className={`w-full flex items-center justify-between p-2.5 rounded transition-all ${winnerId === teamBId && teamBId
               ? "bg-green-700/50 border border-green-400/60 text-white shadow-[0_0_10px_rgba(74,222,128,0.2)]"
               : "bg-black/30 border border-green-900/20 text-green-400/70 hover:border-green-600/50 hover:text-green-200"
-          }`}
+            }`}
         >
           <div className="flex items-center gap-3">
             <span className="text-[10px] font-oswald text-green-400 font-bold uppercase w-4">{teamB?.shortName || "??"}</span>
@@ -202,7 +200,7 @@ function KnockoutSection() {
             <Trophy className="w-6 h-6" /> GRANDE FINAL
           </h2>
         </div>
-        
+
         <div className="max-w-2xl mx-auto bg-yellow-500/5 border border-yellow-500/20 rounded-xl p-8 shadow-[0_0_50px_rgba(234,179,8,0.1)]">
           <div className="bg-black/60 px-4 py-2 rounded-full border border-yellow-900/30 w-fit mx-auto mb-8 flex items-center gap-3">
             <span className="text-[10px] font-oswald text-yellow-600 uppercase tracking-widest">Finalistas — vencedores das semifinais</span>
@@ -217,11 +215,10 @@ function KnockoutSection() {
               return (
                 <div
                   key={slot}
-                  className={`flex-1 flex flex-col items-center gap-4 p-6 rounded-xl border-2 transition-all ${
-                    sfWinner
+                  className={`flex-1 flex flex-col items-center gap-4 p-6 rounded-xl border-2 transition-all ${sfWinner
                       ? "bg-yellow-500/20 border-yellow-500 shadow-[0_0_20px_rgba(234,179,8,0.2)]"
                       : "bg-black/40 border-yellow-900/20 opacity-50"
-                  }`}
+                    }`}
                 >
                   <span className="text-[10px] font-oswald text-yellow-700 uppercase tracking-widest">
                     {slot === 0 ? "SF1" : "SF2"}
@@ -248,11 +245,10 @@ function KnockoutSection() {
                     key={i}
                     onClick={() => setChampion(teamId)}
                     disabled={isPredictionsLocked}
-                    className={`w-full py-5 rounded-lg border-2 transition-all flex items-center justify-center gap-6 ${
-                      champion === teamId
+                    className={`w-full py-5 rounded-lg border-2 transition-all flex items-center justify-center gap-6 ${champion === teamId
                         ? "bg-yellow-500 border-yellow-300 text-black font-bold scale-105 shadow-[0_0_40px_rgba(234,179,8,0.5)]"
                         : "bg-black/40 border-yellow-900/30 text-yellow-500 hover:border-yellow-500"
-                    }`}
+                      }`}
                   >
                     <TeamFlag teamId={teamId} className="w-12 h-8 text-4xl" fallback={TEAMS[teamId].flag} />
                     <span className="text-3xl font-bebas tracking-[0.2em] uppercase">{TEAMS[teamId].name}</span>
@@ -321,7 +317,7 @@ function RankingTab({ onViewPredictions }: { onViewPredictions?: (id: number, na
     fetch("/api/config")
       .then(r => r.ok ? r.json() : null)
       .then(cfg => { if (cfg) setIsLocked(cfg.isLocked || false); })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   useEffect(() => {
@@ -378,17 +374,15 @@ function RankingTab({ onViewPredictions }: { onViewPredictions?: (id: number, na
 
       {/* Card de posição do usuário logado */}
       {myCurrentPos !== null && diff !== null && (
-        <div className={`rounded-xl border p-5 flex items-center justify-between backdrop-blur-md ${
-          diff === 'up' ? 'bg-green-500/10 border-green-500/40' :
-          diff === 'down' ? 'bg-red-500/10 border-red-500/30' :
-          'bg-[#081a08]/80 border-green-900/50'
-        }`}>
+        <div className={`rounded-xl border p-5 flex items-center justify-between backdrop-blur-md ${diff === 'up' ? 'bg-green-500/10 border-green-500/40' :
+            diff === 'down' ? 'bg-red-500/10 border-red-500/30' :
+              'bg-[#081a08]/80 border-green-900/50'
+          }`}>
           <div className="flex items-center gap-4">
-            <div className={`w-14 h-14 rounded-full flex items-center justify-center text-xl font-bebas border-2 ${
-              diff === 'up' ? 'bg-green-500/20 border-green-500 text-green-400' :
-              diff === 'down' ? 'bg-red-500/20 border-red-500 text-red-400' :
-              'bg-yellow-500/20 border-yellow-500 text-yellow-400'
-            }`}>
+            <div className={`w-14 h-14 rounded-full flex items-center justify-center text-xl font-bebas border-2 ${diff === 'up' ? 'bg-green-500/20 border-green-500 text-green-400' :
+                diff === 'down' ? 'bg-red-500/20 border-red-500 text-red-400' :
+                  'bg-yellow-500/20 border-yellow-500 text-yellow-400'
+              }`}>
               {myCurrentPos}º
             </div>
             <div>
@@ -498,7 +492,7 @@ function GroupCard({ groupId }: { groupId: string }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const group = GROUPS.find(g => g.id === groupId)!;
   const groupPred = state.groupPredictions[groupId];
-  
+
   const matches = GROUP_MATCHES.filter(m => group.teams.includes(m.homeTeamId));
   const completedMatches = groupPred?.matchPredictions.filter(p => p.homeScore !== null && p.awayScore !== null).length || 0;
   const isComplete = completedMatches === 6;
@@ -528,12 +522,12 @@ function GroupCard({ groupId }: { groupId: string }) {
     .map(id => ({ teamId: id, ...stats[id] }))
     .sort((a, b) => {
       if (b.pts !== a.pts) return b.pts - a.pts;
-      
+
       // Confronto direto se houver empate em pontos
-      const headToHeadMatch = groupPred?.matchPredictions.find(m => 
+      const headToHeadMatch = groupPred?.matchPredictions.find(m =>
         (m.homeScore !== null && m.awayScore !== null) &&
         ((GROUP_MATCHES.find(gm => gm.id === m.matchId)?.homeTeamId === a.teamId && GROUP_MATCHES.find(gm => gm.id === m.matchId)?.awayTeamId === b.teamId) ||
-         (GROUP_MATCHES.find(gm => gm.id === m.matchId)?.homeTeamId === b.teamId && GROUP_MATCHES.find(gm => gm.id === m.matchId)?.awayTeamId === a.teamId))
+          (GROUP_MATCHES.find(gm => gm.id === m.matchId)?.homeTeamId === b.teamId && GROUP_MATCHES.find(gm => gm.id === m.matchId)?.awayTeamId === a.teamId))
       );
 
       if (headToHeadMatch) {
@@ -558,7 +552,7 @@ function GroupCard({ groupId }: { groupId: string }) {
         </div>
         <span className="text-[10px] text-green-700 font-mono">{completedMatches}/6 jogos</span>
       </div>
-      
+
       <div className="p-3 space-y-4">
         <div className="space-y-1.5">
           <p className="text-[10px] text-green-700 font-oswald uppercase tracking-widest flex items-center gap-1">
@@ -600,54 +594,54 @@ function GroupCard({ groupId }: { groupId: string }) {
         </div>
 
         <div className="pt-2 border-t border-green-900/20">
-          <button 
+          <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="w-full py-1 text-[10px] text-green-600 font-oswald uppercase tracking-widest hover:text-green-400 transition-colors flex items-center justify-center gap-1 pointer-events-auto"
           >
             {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
             {isExpanded ? "Recolher Partidas" : "Ver 6 Partidas (+pontos por placar)"}
           </button>
-          
+
           <div className={`mt-2 space-y-2 transition-all duration-300 overflow-hidden ${isExpanded ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"}`}>
             {matches.map(match => {
-               const pred = groupPred?.matchPredictions.find(p => p.matchId === match.id);
-               return (
-                 <div key={match.id} className="bg-black/30 p-2 rounded border border-green-900/30">
-                   <div className="text-[8px] text-green-900 uppercase font-mono mb-1 flex justify-between">
-                     <span>{match.date}</span>
-                     <span>{match.venue}</span>
-                   </div>
-                   <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-                     <div className="text-right min-w-0">
-                       <div className="flex flex-col items-end">
-                         <TeamFlag teamId={match.homeTeamId} className="w-6 h-4 mb-1" fallback={TEAMS[match.homeTeamId].flag} />
-                         <span className="text-[10px] font-bold font-oswald text-green-100 uppercase leading-tight">{TEAMS[match.homeTeamId].name}</span>
-                       </div>
-                     </div>
-                     
-                     <div className="flex items-center gap-1.5 px-1 bg-black/20 rounded-md py-1 border border-green-900/20">
-                       <ScoreInput 
-                         value={pred?.homeScore ?? null}
-                         onChange={homeScore => setMatchPrediction(groupId, match.id, null, homeScore, pred?.awayScore ?? null)}
-                         disabled={isPredictionsLocked}
-                       />
-                       <span className="text-green-700 text-[10px] font-bold">×</span>
-                       <ScoreInput 
-                         value={pred?.awayScore ?? null}
-                         onChange={awayScore => setMatchPrediction(groupId, match.id, null, pred?.homeScore ?? null, awayScore)}
-                         disabled={isPredictionsLocked}
-                       />
-                     </div>
+              const pred = groupPred?.matchPredictions.find(p => p.matchId === match.id);
+              return (
+                <div key={match.id} className="bg-black/30 p-2 rounded border border-green-900/30">
+                  <div className="text-[9px] text-white font-bold uppercase mb-1 flex justify-between">
+                    <span>{match.date} · {match.time}</span>
+                    <span>{match.venue}</span>
+                  </div>
+                  <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+                    <div className="text-right min-w-0">
+                      <div className="flex flex-col items-end">
+                        <TeamFlag teamId={match.homeTeamId} className="w-6 h-4 mb-1" fallback={TEAMS[match.homeTeamId].flag} />
+                        <span className="text-[10px] font-bold font-oswald text-green-100 uppercase leading-tight">{TEAMS[match.homeTeamId].name}</span>
+                      </div>
+                    </div>
 
-                     <div className="text-left min-w-0">
-                       <div className="flex flex-col items-start">
-                         <TeamFlag teamId={match.awayTeamId} className="w-6 h-4 mb-1" fallback={TEAMS[match.awayTeamId].flag} />
-                         <span className="text-[10px] font-bold font-oswald text-green-100 uppercase leading-tight">{TEAMS[match.awayTeamId].name}</span>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-               );
+                    <div className="flex items-center gap-1.5 px-1 bg-black/20 rounded-md py-1 border border-green-900/20">
+                      <ScoreInput
+                        value={pred?.homeScore ?? null}
+                        onChange={homeScore => setMatchPrediction(groupId, match.id, null, homeScore, pred?.awayScore ?? null)}
+                        disabled={isPredictionsLocked}
+                      />
+                      <span className="text-green-700 text-[10px] font-bold">×</span>
+                      <ScoreInput
+                        value={pred?.awayScore ?? null}
+                        onChange={awayScore => setMatchPrediction(groupId, match.id, null, pred?.homeScore ?? null, awayScore)}
+                        disabled={isPredictionsLocked}
+                      />
+                    </div>
+
+                    <div className="text-left min-w-0">
+                      <div className="flex flex-col items-start">
+                        <TeamFlag teamId={match.awayTeamId} className="w-6 h-4 mb-1" fallback={TEAMS[match.awayTeamId].flag} />
+                        <span className="text-[10px] font-bold font-oswald text-green-100 uppercase leading-tight">{TEAMS[match.awayTeamId].name}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
             })}
           </div>
         </div>
@@ -882,7 +876,7 @@ function StatsTab() {
   const totalExactHits = stats.reduce((s, m) => s + m.exactHits, 0);
   const totalPreds = stats.reduce((s, m) => s + m.total, 0);
   const avgResultPct = totalPreds > 0 ? Math.round((totalResultHits / totalPreds) * 100) : 0;
-  const avgExactPct  = totalPreds > 0 ? Math.round((totalExactHits  / totalPreds) * 100) : 0;
+  const avgExactPct = totalPreds > 0 ? Math.round((totalExactHits / totalPreds) * 100) : 0;
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
@@ -900,7 +894,7 @@ function StatsTab() {
           { label: 'Jogos Encerrados', value: totalMatches, color: 'text-green-400' },
           { label: 'Total de Previsões', value: totalPreds, color: 'text-green-400' },
           { label: 'Acertos de Resultado', value: `${avgResultPct}%`, color: 'text-green-400', sub: 'média geral' },
-          { label: 'Placar Exato',         value: `${avgExactPct}%`,  color: 'text-yellow-500', sub: 'média geral' },
+          { label: 'Placar Exato', value: `${avgExactPct}%`, color: 'text-yellow-500', sub: 'média geral' },
         ].map(card => (
           <div key={card.label} className="bg-[#081a08]/80 border border-green-900/50 rounded-xl p-4 text-center backdrop-blur-md">
             <p className={`text-3xl font-bebas ${card.color}`}>{card.value}</p>
@@ -920,7 +914,7 @@ function StatsTab() {
           <div className="divide-y divide-green-900/10">
             {matches.map(m => {
               const resultPct = m.total > 0 ? Math.round((m.resultHits / m.total) * 100) : 0;
-              const exactPct  = m.total > 0 ? Math.round((m.exactHits  / m.total) * 100) : 0;
+              const exactPct = m.total > 0 ? Math.round((m.exactHits / m.total) * 100) : 0;
               const homeTeam = TEAMS[m.homeTeamId];
               const awayTeam = TEAMS[m.awayTeamId];
               return (
@@ -979,11 +973,10 @@ function StatsTab() {
                       {m.topPredictions.map((p, i) => {
                         const isCorrect = p.score === `${m.officialHome}-${m.officialAway}`;
                         return (
-                          <span key={i} className={`text-[10px] font-bebas px-2 py-0.5 rounded border ${
-                            isCorrect
+                          <span key={i} className={`text-[10px] font-bebas px-2 py-0.5 rounded border ${isCorrect
                               ? 'text-green-300 bg-green-500/15 border-green-500/40'
                               : 'text-green-800 bg-black/20 border-green-900/30'
-                          }`}>
+                            }`}>
                             {p.score}
                             <span className="text-[8px] opacity-60 ml-1">({p.count}×)</span>
                             {isCorrect && <span className="ml-1 text-green-400">✓</span>}
@@ -1105,12 +1098,11 @@ function SectorRankingTab() {
               onClick={() => setExpandedSector(expandedSector === sector.department ? null : sector.department)}
               className="w-full flex items-center gap-4 p-5 hover:bg-white/5 transition-colors"
             >
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-bebas border-2 shrink-0 ${
-                idx === 0 ? "bg-yellow-500/20 border-yellow-500 text-yellow-400" :
-                idx === 1 ? "bg-gray-400/20 border-gray-400 text-gray-300" :
-                idx === 2 ? "bg-amber-700/20 border-amber-700 text-amber-600" :
-                "bg-green-900/20 border-green-900 text-green-700"
-              }`}>
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-bebas border-2 shrink-0 ${idx === 0 ? "bg-yellow-500/20 border-yellow-500 text-yellow-400" :
+                  idx === 1 ? "bg-gray-400/20 border-gray-400 text-gray-300" :
+                    idx === 2 ? "bg-amber-700/20 border-amber-700 text-amber-600" :
+                      "bg-green-900/20 border-green-900 text-green-700"
+                }`}>
                 {idx + 1}º
               </div>
               <div className="flex-1 text-left min-w-0">
@@ -1255,7 +1247,7 @@ function ProfileModal({ onClose }: { onClose: () => void }) {
   const token = () => localStorage.getItem("worldcup_auth_token") ?? "";
   const jsonH = () => ({ "Content-Type": "application/json", Authorization: `Bearer ${token()}` });
 
-    const DEPARTMENTS = [
+  const DEPARTMENTS = [
     "Administrativo",
     "Central de Atendimento",
     "Comissões",
@@ -1280,7 +1272,8 @@ function ProfileModal({ onClose }: { onClose: () => void }) {
     "Sociedades",
     "Contabilidade",
     "CAASC",
-    "Compras"
+    "Compras",
+    "Sicoob"
   ];
 
   const handleSaveProfile = async () => {
@@ -1398,9 +1391,9 @@ function ProfileModal({ onClose }: { onClose: () => void }) {
 
 export default function Home() {
   const { user, logout } = useAuthContext();
-  const { 
+  const {
     state, resetAll, setConfirmedGroups, setConfirmedKnockout,
-    hasUnsavedChanges, isSaving, savePredictionsToDatabase 
+    hasUnsavedChanges, isSaving, savePredictionsToDatabase
   } = useSimulator();
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState<"ranking" | "sector" | "groups" | "knockout" | "stats" | "rules" | "payment" | "awards">("ranking");
@@ -1425,7 +1418,7 @@ export default function Home() {
           setIsLocked(cfg.isLocked || false);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   // Polling de novos resultados para notificação (a cada 60s)
@@ -1442,7 +1435,7 @@ export default function Home() {
           }
           prevResultsRef.current = count;
         })
-        .catch(() => {});
+        .catch(() => { });
     };
     checkResults();
     const id = setInterval(checkResults, 60000);
@@ -1512,7 +1505,7 @@ export default function Home() {
       <div className="relative h-[480px] w-full overflow-hidden border-b border-green-900/50">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#040d04]/60 to-[#040d04]" />
         <div className="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2000')] bg-cover bg-center grayscale" />
-        
+
         <div className="container relative h-full flex flex-col justify-between py-4">
           {/* Barra superior: usuário + botões */}
           <div className="flex items-center justify-between gap-2 pt-2">
@@ -1522,11 +1515,10 @@ export default function Home() {
                 <span className="hidden sm:inline">LOGADO COMO: </span>
                 <span className="text-green-400 font-bold">{user?.name}</span>
               </p>
-              <div className={`ml-1 px-2 py-0.5 rounded text-[8px] font-bebas tracking-widest uppercase border shrink-0 ${
-                user?.hasPaid
+              <div className={`ml-1 px-2 py-0.5 rounded text-[8px] font-bebas tracking-widest uppercase border shrink-0 ${user?.hasPaid
                   ? "bg-green-500/20 border-green-500 text-green-400"
                   : "bg-red-500/20 border-red-500 text-red-400"
-              }`}>
+                }`}>
                 {user?.hasPaid ? "PAGAMENTO CONFIRMADO" : "PAGAMENTO PENDENTE"}
               </div>
             </div>
@@ -1577,7 +1569,7 @@ export default function Home() {
       <div className="bg-black/90 backdrop-blur-xl sticky top-0 z-50 border-y border-green-900/30 shadow-2xl group/nav">
         <div className="container relative">
           {/* Seta Esquerda */}
-          <button 
+          <button
             onClick={() => {
               const el = document.getElementById('main-nav-scroll');
               if (el) el.scrollBy({ left: -200, behavior: 'smooth' });
@@ -1588,64 +1580,64 @@ export default function Home() {
           </button>
 
           <div id="main-nav-scroll" className="flex items-center gap-4 md:gap-8 xl:gap-12 py-3 md:py-4 xl:py-5 overflow-x-auto no-scrollbar">
-          <button 
-            onClick={() => setActiveTab("ranking")}
-            className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest transition-all shrink-0 ${activeTab === "ranking" ? "text-yellow-500 scale-110" : "text-green-900 hover:text-green-700"}`}
-          >
-            <TrendingUp className="w-4 h-4 md:w-5 md:h-5" /> RANKING GLOBAL
-          </button>
-          <button 
-            onClick={() => setActiveTab("sector")}
-            className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest transition-all shrink-0 ${activeTab === "sector" ? "text-yellow-500 scale-110" : "text-green-900 hover:text-green-700"}`}
-          >
-            <Building2 className="w-4 h-4 md:w-5 md:h-5" /> POR SETOR
-          </button>
-          <button 
-            onClick={() => setActiveTab("groups")}
-            className={`flex flex-col items-start transition-all shrink-0 ${activeTab === "groups" ? "scale-110" : "hover:opacity-80"}`}
-          >
-            <div className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest ${activeTab === "groups" ? "text-green-400" : "text-green-900"}`}>
-              <LayoutGrid className="w-4 h-4 md:w-5 md:h-5" /> FASE DE GRUPOS <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${activeTab === "groups" ? "bg-green-500 text-black" : "bg-green-900/30 text-green-700"}`}>12/12</span>
-            </div>
-            {confirmedGroups && <span className="text-[10px] font-oswald text-green-500 uppercase tracking-tighter mt-0.5">Seleção Confirmada!</span>}
-          </button>
-          <button 
-            onClick={() => setActiveTab("knockout")}
-            className={`flex flex-col items-start transition-all shrink-0 ${activeTab === "knockout" ? "scale-110" : "hover:opacity-80"}`}
-          >
-            <div className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest ${activeTab === "knockout" ? "text-green-400" : "text-green-900"}`}>
-              <Trophy className="w-4 h-4 md:w-5 md:h-5" /> ELIMINATÓRIAS <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${activeTab === "knockout" ? "bg-green-500 text-black" : "bg-green-900/30 text-green-700"}`}>32 TIMES</span>
-            </div>
-            {confirmedKnockout && <span className="text-[10px] font-oswald text-green-500 uppercase tracking-tighter mt-0.5">Seleção Confirmada!</span>}
-          </button>
-          <button 
-            onClick={() => setActiveTab("stats")}
-            className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest transition-all shrink-0 ${activeTab === "stats" ? "text-green-400 scale-110" : "text-green-900 hover:text-green-700"}`}
-          >
-            <BarChart2 className="w-4 h-4 md:w-5 md:h-5" /> ESTATÍSTICAS
-          </button>
-          <button 
-            onClick={() => setActiveTab("awards")}
-            className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest transition-all shrink-0 ${activeTab === "awards" ? "text-yellow-500 scale-110" : "text-green-900 hover:text-green-700"}`}
-          >
-            <Trophy className="w-4 h-4 md:w-5 md:h-5" /> PREMIAÇÃO
-          </button>
-          <button 
-            onClick={() => setActiveTab("payment")}
-            className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest transition-all shrink-0 ${activeTab === "payment" ? "text-yellow-500 scale-110" : "text-green-900 hover:text-green-700"}`}
-          >
-            <Shield className="w-4 h-4 md:w-5 md:h-5" /> PAGAMENTO
-          </button>
-          <button 
-            onClick={() => setActiveTab("rules")}
-            className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest transition-all shrink-0 ${activeTab === "rules" ? "text-green-400 scale-110" : "text-green-900 hover:text-green-700"}`}
-          >
-            <ClipboardList className="w-4 h-4 md:w-5 md:h-5" /> REGRAS & PONTOS
-          </button>
+            <button
+              onClick={() => setActiveTab("ranking")}
+              className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest transition-all shrink-0 ${activeTab === "ranking" ? "text-yellow-500 scale-110" : "text-green-900 hover:text-green-700"}`}
+            >
+              <TrendingUp className="w-4 h-4 md:w-5 md:h-5" /> RANKING GLOBAL
+            </button>
+            <button
+              onClick={() => setActiveTab("sector")}
+              className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest transition-all shrink-0 ${activeTab === "sector" ? "text-yellow-500 scale-110" : "text-green-900 hover:text-green-700"}`}
+            >
+              <Building2 className="w-4 h-4 md:w-5 md:h-5" /> POR SETOR
+            </button>
+            <button
+              onClick={() => setActiveTab("groups")}
+              className={`flex flex-col items-start transition-all shrink-0 ${activeTab === "groups" ? "scale-110" : "hover:opacity-80"}`}
+            >
+              <div className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest ${activeTab === "groups" ? "text-green-400" : "text-green-900"}`}>
+                <LayoutGrid className="w-4 h-4 md:w-5 md:h-5" /> FASE DE GRUPOS <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${activeTab === "groups" ? "bg-green-500 text-black" : "bg-green-900/30 text-green-700"}`}>12/12</span>
+              </div>
+              {confirmedGroups && <span className="text-[10px] font-oswald text-green-500 uppercase tracking-tighter mt-0.5">Seleção Confirmada!</span>}
+            </button>
+            <button
+              onClick={() => setActiveTab("knockout")}
+              className={`flex flex-col items-start transition-all shrink-0 ${activeTab === "knockout" ? "scale-110" : "hover:opacity-80"}`}
+            >
+              <div className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest ${activeTab === "knockout" ? "text-green-400" : "text-green-900"}`}>
+                <Trophy className="w-4 h-4 md:w-5 md:h-5" /> ELIMINATÓRIAS <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${activeTab === "knockout" ? "bg-green-500 text-black" : "bg-green-900/30 text-green-700"}`}>32 TIMES</span>
+              </div>
+              {confirmedKnockout && <span className="text-[10px] font-oswald text-green-500 uppercase tracking-tighter mt-0.5">Seleção Confirmada!</span>}
+            </button>
+            <button
+              onClick={() => setActiveTab("stats")}
+              className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest transition-all shrink-0 ${activeTab === "stats" ? "text-green-400 scale-110" : "text-green-900 hover:text-green-700"}`}
+            >
+              <BarChart2 className="w-4 h-4 md:w-5 md:h-5" /> ESTATÍSTICAS
+            </button>
+            <button
+              onClick={() => setActiveTab("awards")}
+              className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest transition-all shrink-0 ${activeTab === "awards" ? "text-yellow-500 scale-110" : "text-green-900 hover:text-green-700"}`}
+            >
+              <Trophy className="w-4 h-4 md:w-5 md:h-5" /> PREMIAÇÃO
+            </button>
+            <button
+              onClick={() => setActiveTab("payment")}
+              className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest transition-all shrink-0 ${activeTab === "payment" ? "text-yellow-500 scale-110" : "text-green-900 hover:text-green-700"}`}
+            >
+              <Shield className="w-4 h-4 md:w-5 md:h-5" /> PAGAMENTO
+            </button>
+            <button
+              onClick={() => setActiveTab("rules")}
+              className={`flex items-center gap-1.5 md:gap-3 font-bebas text-base md:text-xl xl:text-2xl tracking-widest transition-all shrink-0 ${activeTab === "rules" ? "text-green-400 scale-110" : "text-green-900 hover:text-green-700"}`}
+            >
+              <ClipboardList className="w-4 h-4 md:w-5 md:h-5" /> REGRAS & PONTOS
+            </button>
           </div>
 
           {/* Seta Direita */}
-          <button 
+          <button
             onClick={() => {
               const el = document.getElementById('main-nav-scroll');
               if (el) el.scrollBy({ left: 200, behavior: 'smooth' });
@@ -1692,100 +1684,100 @@ export default function Home() {
               <div className="max-w-3xl mx-auto bg-[#081a08]/80 border border-green-900/50 rounded-2xl p-10 backdrop-blur-md">
                 <h2 className="text-4xl font-bebas text-green-400 mb-8 text-center uppercase tracking-widest">Regras & Pontuação</h2>
                 <div className="space-y-6 font-oswald text-green-100 uppercase tracking-wider">
-                   <div className="bg-yellow-500/10 border-l-4 border-yellow-500 p-4 mb-8">
-                     <p className="text-yellow-500 text-sm font-bold">Novo Formato 2026: 48 Seleções</p>
-                     <ul className="list-disc list-inside space-y-1 text-[10px] mt-2 text-yellow-600/80">
-                       <li>12 Grupos de 4 equipes</li>
-                       <li>Classificam-se os 2 primeiros de cada grupo (24 times)</li>
-                       <li>Classificam-se os 8 melhores 3º colocados (8 times)</li>
-                       <li>Total: 32 times no Mata-Mata (Segunda Rodada)</li>
-                     </ul>
-                   </div>
+                  <div className="bg-yellow-500/10 border-l-4 border-yellow-500 p-4 mb-8">
+                    <p className="text-yellow-500 text-sm font-bold">Novo Formato 2026: 48 Seleções</p>
+                    <ul className="list-disc list-inside space-y-1 text-[10px] mt-2 text-yellow-600/80">
+                      <li>12 Grupos de 4 equipes</li>
+                      <li>Classificam-se os 2 primeiros de cada grupo (24 times)</li>
+                      <li>Classificam-se os 8 melhores 3º colocados (8 times)</li>
+                      <li>Total: 32 times no Mata-Mata (Segunda Rodada)</li>
+                    </ul>
+                  </div>
 
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                     <div className="space-y-4">
-                       <h3 className="text-green-500 text-lg border-b border-green-900/30 pb-2">Fase de Grupos</h3>
-                       <div className="flex justify-between items-center text-xs">
-                         <span>Acertar Vencedor (1/X/2)</span>
-                         <span className="text-yellow-500 font-bold">+6 PTS</span>
-                       </div>
-                       <div className="flex justify-between items-center text-xs">
-                         <span>Acertar Gols do Time da Casa</span>
-                         <span className="text-yellow-500 font-bold">+2 PTS</span>
-                       </div>
-                       <div className="flex justify-between items-center text-xs">
-                         <span>Acertar Gols do Time Visitante</span>
-                         <span className="text-yellow-500 font-bold">+2 PTS</span>
-                       </div>
-                       <div className="flex justify-between items-center text-xs border-t border-green-900/30 pt-2 mt-1">
-                         <span className="text-green-300">Placar Exato (máximo por jogo)</span>
-                         <span className="text-green-300 font-bold">+10 PTS</span>
-                       </div>
-                       <h3 className="text-green-500 text-lg border-b border-green-900/30 pb-2 pt-2">Melhores Terceiros</h3>
-                       <div className="flex justify-between items-center text-xs">
-                         <span>Acertar 3º Colocado Classificado</span>
-                         <span className="text-yellow-500 font-bold">+2 PTS cada</span>
-                       </div>
-                       <p className="text-[10px] text-green-800 leading-relaxed">Os 8 melhores 3os colocados dos 12 grupos avançam para a Segunda Rodada.</p>
-                     </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <h3 className="text-green-500 text-lg border-b border-green-900/30 pb-2">Fase de Grupos</h3>
+                      <div className="flex justify-between items-center text-xs">
+                        <span>Acertar Vencedor (1/X/2)</span>
+                        <span className="text-yellow-500 font-bold">+6 PTS</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span>Acertar Gols do Time da Casa</span>
+                        <span className="text-yellow-500 font-bold">+2 PTS</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span>Acertar Gols do Time Visitante</span>
+                        <span className="text-yellow-500 font-bold">+2 PTS</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs border-t border-green-900/30 pt-2 mt-1">
+                        <span className="text-green-300">Placar Exato (máximo por jogo)</span>
+                        <span className="text-green-300 font-bold">+10 PTS</span>
+                      </div>
+                      <h3 className="text-green-500 text-lg border-b border-green-900/30 pb-2 pt-2">Melhores Terceiros</h3>
+                      <div className="flex justify-between items-center text-xs">
+                        <span>Acertar 3º Colocado Classificado</span>
+                        <span className="text-yellow-500 font-bold">+2 PTS cada</span>
+                      </div>
+                      <p className="text-[10px] text-green-800 leading-relaxed">Os 8 melhores 3os colocados dos 12 grupos avançam para a Segunda Rodada.</p>
+                    </div>
 
-                     <div className="space-y-4">
-                       <h3 className="text-green-500 text-lg border-b border-green-900/30 pb-2">Eliminatórias</h3>
-                       <div className="flex justify-between items-center text-xs">
-                         <span>Segunda Rodada — acertar classificado</span>
-                         <span className="text-yellow-500 font-bold">+1 PT por time</span>
-                       </div>
-                       <div className="flex justify-between items-center text-xs">
-                         <span>Oitavas de Final — acertar classificado</span>
-                         <span className="text-yellow-500 font-bold">+2 PTS por time</span>
-                       </div>
-                       <div className="flex justify-between items-center text-xs">
-                         <span>Quartas de Final — acertar classificado</span>
-                         <span className="text-yellow-500 font-bold">+4 PTS por time</span>
-                       </div>
-                       <div className="flex justify-between items-center text-xs">
-                         <span>Semifinais — acertar classificado</span>
-                         <span className="text-yellow-500 font-bold">+8 PTS por time</span>
-                       </div>
-                       <div className="flex justify-between items-center text-xs border-t border-green-900/30 pt-2 mt-1">
-                         <span>Acertar um Finalista</span>
-                         <span className="text-yellow-500 font-bold">+10 PTS por time</span>
-                       </div>
-                       <div className="flex justify-between items-center text-xs">
-                         <span>Acertar o Campeão Mundial</span>
-                         <span className="text-yellow-500 font-bold">+20 PTS</span>
-                       </div>
-                     </div>
-                   </div>
+                    <div className="space-y-4">
+                      <h3 className="text-green-500 text-lg border-b border-green-900/30 pb-2">Eliminatórias</h3>
+                      <div className="flex justify-between items-center text-xs">
+                        <span>Segunda Rodada — acertar classificado</span>
+                        <span className="text-yellow-500 font-bold">+1 PT por time</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span>Oitavas de Final — acertar classificado</span>
+                        <span className="text-yellow-500 font-bold">+2 PTS por time</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span>Quartas de Final — acertar classificado</span>
+                        <span className="text-yellow-500 font-bold">+4 PTS por time</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span>Semifinais — acertar classificado</span>
+                        <span className="text-yellow-500 font-bold">+8 PTS por time</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs border-t border-green-900/30 pt-2 mt-1">
+                        <span>Acertar um Finalista</span>
+                        <span className="text-yellow-500 font-bold">+10 PTS por time</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span>Acertar o Campeão Mundial</span>
+                        <span className="text-yellow-500 font-bold">+20 PTS</span>
+                      </div>
+                    </div>
+                  </div>
 
-                   <div className="mt-6 bg-green-900/20 border border-green-900/40 rounded-xl p-4">
-                     <h3 className="text-green-400 text-sm font-bebas tracking-widest mb-3">Pontuação Máxima Possível</h3>
-                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-[10px] text-center">
-                       <div className="bg-[#081a08] rounded-lg p-2">
-                         <div className="text-yellow-500 font-bold text-base">720</div>
-                         <div className="text-green-700">Grupos (vencedores)</div>
-                       </div>
-                       <div className="bg-[#081a08] rounded-lg p-2">
-                         <div className="text-yellow-500 font-bold text-base">288</div>
-                         <div className="text-green-700">Grupos (placares)</div>
-                       </div>
-                       <div className="bg-[#081a08] rounded-lg p-2">
-                         <div className="text-yellow-500 font-bold text-base">16</div>
-                         <div className="text-green-700">Melhores Terceiros</div>
-                       </div>
-                       <div className="bg-[#081a08] rounded-lg p-2">
-                         <div className="text-yellow-500 font-bold text-base">≈208</div>
-                         <div className="text-green-700">Eliminatórias + Final</div>
-                       </div>
-                     </div>
-                   </div>
+                  <div className="mt-6 bg-green-900/20 border border-green-900/40 rounded-xl p-4">
+                    <h3 className="text-green-400 text-sm font-bebas tracking-widest mb-3">Pontuação Máxima Possível</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-[10px] text-center">
+                      <div className="bg-[#081a08] rounded-lg p-2">
+                        <div className="text-yellow-500 font-bold text-base">720</div>
+                        <div className="text-green-700">Grupos (vencedores)</div>
+                      </div>
+                      <div className="bg-[#081a08] rounded-lg p-2">
+                        <div className="text-yellow-500 font-bold text-base">288</div>
+                        <div className="text-green-700">Grupos (placares)</div>
+                      </div>
+                      <div className="bg-[#081a08] rounded-lg p-2">
+                        <div className="text-yellow-500 font-bold text-base">16</div>
+                        <div className="text-green-700">Melhores Terceiros</div>
+                      </div>
+                      <div className="bg-[#081a08] rounded-lg p-2">
+                        <div className="text-yellow-500 font-bold text-base">≈208</div>
+                        <div className="text-green-700">Eliminatórias + Final</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
             {activeTab === "payment" && (
               <div className="max-w-3xl mx-auto bg-[#081a08]/80 border border-green-900/50 rounded-2xl p-10 backdrop-blur-md shadow-[0_0_50px_rgba(234,179,8,0.1)]">
                 <h2 className="text-4xl font-bebas text-yellow-500 mb-8 text-center uppercase tracking-widest">Instruções de Pagamento</h2>
-                
+
                 <div className="space-y-8 font-oswald uppercase tracking-wider">
                   <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-8 text-center space-y-4">
                     <p className="text-green-400 text-sm">Valor da inscrição:</p>
@@ -1822,10 +1814,10 @@ export default function Home() {
             {activeTab === "awards" && (
               <div className="max-w-3xl mx-auto bg-[#081a08]/80 border border-green-900/50 rounded-2xl p-10 backdrop-blur-md shadow-[0_0_50px_rgba(234,179,8,0.1)]">
                 <h2 className="text-4xl font-bebas text-yellow-500 mb-8 text-center uppercase tracking-widest">Premiação</h2>
-                
+
                 <div className="space-y-8 font-oswald uppercase tracking-wider">
                   <p className="text-green-400 text-center text-xs mb-4">O valor arrecadado será dividido na seguinte proporção:</p>
-                  
+
                   <div className="space-y-4">
                     <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-6 flex items-center justify-between">
                       <div className="flex items-center gap-4">

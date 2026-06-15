@@ -1,0 +1,31 @@
+FROM node:24-alpine AS base
+RUN corepack enable && corepack prepare pnpm@latest --activate
+WORKDIR /app
+
+FROM base AS deps
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
+COPY lib/db/package.json ./lib/db/
+COPY lib/api-client-react/package.json ./lib/api-client-react/
+COPY artifacts/bolao2026/package.json ./artifacts/bolao2026/
+RUN pnpm install --no-frozen-lockfile --ignore-scripts && pnpm add -w @rollup/rollup-linux-x64-musl
+
+FROM base AS build
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/lib/db/node_modules ./lib/db/node_modules
+COPY --from=deps /app/lib/api-client-react/node_modules ./lib/api-client-react/node_modules
+COPY --from=deps /app/artifacts/bolao2026/node_modules ./artifacts/bolao2026/node_modules
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml tsconfig.base.json tsconfig.json ./
+COPY lib/db ./lib/db
+COPY lib/api-client-react ./lib/api-client-react
+COPY artifacts/bolao2026 ./artifacts/bolao2026
+ENV PORT=3000
+ENV BASE_PATH=/
+ENV NODE_ENV=production
+RUN pnpm --filter @workspace/bolao2026 run build
+
+FROM alpine:3.20 AS runner
+RUN apk add --no-cache bash
+COPY --from=build /app/artifacts/bolao2026/dist/public /srv/bolao2026
+
+VOLUME ["/srv/bolao2026"]
+CMD ["sh", "-c", "echo 'Frontend static files ready at /srv/bolao2026'"]

@@ -110,6 +110,7 @@ export default function Register() {
                 <option value="Contabilidade">Contabilidade</option>
                 <option value="CAASC">CAASC</option>
                 <option value="Compras">Compras</option>
+                <option value="Sicoob">Sicoob</option>
               </select>
             </div>
 

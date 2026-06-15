@@ -1,5 +1,5 @@
 kind = "web"
-previewPath = "/"
+previewPath = "/bolao2026/"
 title = "Bolão Copa do Mundo 2026"
 version = "1.0.0"
 id = "artifacts/bolao2026"
@@ -11,7 +11,7 @@ version = "1.0.0"
 
 [[services]]
 name = "web"
-paths = [ "/" ]
+paths = [ "/bolao2026/" ]
 localPort = 22311
 
 [services.development]
@@ -28,4 +28,4 @@ to = "/index.html"
 
 [services.env]
 PORT = "22311"
-BASE_PATH = "/"
+BASE_PATH = "/bolao2026/"

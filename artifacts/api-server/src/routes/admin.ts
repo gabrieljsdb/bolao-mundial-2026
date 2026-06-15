@@ -253,7 +253,7 @@ router.post("/admin/send-reports", requireAdmin, async (req: any, res) => {
     const transporter = nodemailer.createTransport({ host: smtp.host, port: smtp.port, auth: { user: smtp.user, pass: smtp.pass } });
     let sent = 0;
     const errors: string[] = [];
-    for (const u of allUsers.filter(u => u.role !== "admin")) {
+    for (const u of allUsers.filter(u => u.role !== "admin" && u.hasPaid)) {
       try {
         await transporter.sendMail({
           from: smtp.from,
@@ -273,7 +273,7 @@ router.post("/admin/send-reports", requireAdmin, async (req: any, res) => {
       action: "send_reports",
       details: { sent, errors: errors.length },
     });
-    res.json({ success: true, sent, errors });
+    res.json({ success: true, sent, failed: errors.length, total: allUsers.filter(u => u.role !== "admin" && u.hasPaid).length, errors });
   } catch (err: any) {
     req.log.error(err, "send reports error");
     res.status(500).json({ error: "Erro interno" });

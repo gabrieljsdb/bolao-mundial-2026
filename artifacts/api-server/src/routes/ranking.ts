@@ -17,6 +17,7 @@ router.get("/ranking", async (req, res) => {
     const predMap: Record<number, any> = {};
     for (const p of allPredictions) predMap[p.userId] = p;
     const ranking = allUsers
+      .filter(u => u.hasPaid)
       .map(u => ({
         id: u.id,
         name: u.name,
@@ -53,7 +54,7 @@ router.get("/ranking/by-sector", async (req, res) => {
 
     const sectorMap: Record<string, { totalScore: number; count: number; topScore: number; members: any[] }> = {};
     
-    for (const u of allUsers) {
+    for (const u of allUsers.filter(u => u.hasPaid)) {
       const dept = u.department || "Outros";
       const score = computeScore(predMap[u.id], allResults, knockoutResults);
       

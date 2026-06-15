@@ -169,7 +169,7 @@ export function MobileQuickPick() {
         </div>
 
         <div className="px-4 pt-1 pb-0.5 text-center">
-          <span className="text-[10px] font-mono text-green-800">{match.date} · {match.venue}</span>
+          <span className="text-[10px] font-bold text-white">{match.date} · {match.time} · {match.venue}</span>
         </div>
 
         {/* Times + Placar */}
